@@ -9,7 +9,8 @@ body {
     background-color: #f4f4f4;
 }
 
-input, textarea{
+input,
+textarea {
     background-color: #fff;
 }
 
@@ -25,16 +26,20 @@ h2 {
     letter-spacing: 0.09px;
 }
 
-.page-title{
+.page-title {
     text-align: center;
-    
+    color: #475569;
+
 }
+
 .container {
     max-width: 960px;
+    min-height: 95vh;
     background-color: #fff;
     margin: 0 auto;
     padding: 32px 18px;
     border-radius: 15px;
+
 }
 
 .input-wrapper {
@@ -137,7 +142,25 @@ h2 {
     display: none;
 }
 
-.result-text{
+.result-text {
+    font-weight: bold;
+    font-style: italic;
+}
+
+
+
+.cheque {
+    color: #475569;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: 0.075px;
+}
+
+.cheque .elemResult {
+    margin-top: 16px;
+    margin-bottom: 5px;
     font-weight: bold;
     font-style: italic;
 }

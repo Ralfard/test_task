@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 
@@ -59,7 +60,7 @@
 
                 <div class="input-wrapper" id="rate">
                     <label>Тариф</label>
-                    <select required name="rateSelect">
+                    <select name="rateSelect">
                         <option value="" selected hidden>Выбирите тариф</option>
                         <option value="Гость">Гость</option>
                         <option value="Резидент">Резидент</option>
@@ -72,11 +73,11 @@
 
                     </div>
                 </div>
-
+                <input type="hidden" name="cost">
                 <h2>Итого:</h2>
                 <hr>
                 <output class="result-block">
-                    <p class="result-text">Выбранная услуга:  </p><span id="serviceResult"></span>
+                    <p class="result-text">Выбранная услуга: </p><span id="serviceResult"></span>
                     <p class="result-text">Продлжительность: </p><span id="durationResult"></span>
                     <p class="result-text">Итоговая стоймость: </p><span id="costResult"></span>
                 </output>
@@ -86,10 +87,10 @@
                     <input id="submitBtn" name="submit" disabled type="submit" value="Оплатить">
                 </div>
         </form>
-    </div>
+        </div>
 
 
-    <script src="js/script.js"></script>
+        <script src="js/script.js"></script>
 
 </body>
 

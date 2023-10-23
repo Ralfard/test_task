@@ -2,7 +2,8 @@ let form = document.getElementById('form');
 let servicesInput = document.getElementById('servicesInput');
 let chengebleArea = document.getElementById('chengebleArea');
 let rate = document.getElementById('rate');
-let rateSelect = form.rateSelect
+let rateSelect = form.rateSelect;
+let cost = form.cost;
 let submitBtn = document.getElementById('submitBtn');
 
 //отвечают за изменения внутри блока "итого"
@@ -14,20 +15,25 @@ let costResult = document.getElementById('costResult');
 
 
 form.onsubmit = (e) => {
-    data = {
-        name: form.userName.value,
-        mail: form.userMail.value,
-        phone: form.userPhone.value,
-        description: form.userDescription.value,
-        service: form.userDescription.value,
-        rate: form.rateSelect === undefined ? "" : form.rateSelect.value,
-        duration: durationResult.innerText,
-        cost: parseInt(costResult.innerText),
-    }
-    data = JSON.stringify(data);
+    cost.value = parseInt(costResult.innerText);
+    // data = {
+    //     name: form.userName.value,
+    //     mail: form.userMail.value,
+    //     phone: form.userPhone.value,
+    //     description: form.userDescription.value,
+    //     service: form.userDescription.value,
+    //     rate: form.rateSelect === undefined ? "" : form.rateSelect.value,
+    //     duration: durationResult.innerText,
+    //     cost: parseInt(costResult.innerText),
+    // }
+    // data = JSON.stringify(data);
 }
 
-servicesInput.onchange = () => {
+servicesInput.onchange = setServicesInput;
+
+setServicesInput();
+function setServicesInput() {
+    console.log(servicesInput.value);
     switch (servicesInput.value) {
         case 'Рабочее место':
             rate.style.display = 'block';
@@ -39,6 +45,7 @@ servicesInput.onchange = () => {
             break;
 
         case 'Конференц зал':
+            rateSelect.value='';
             rate.style.display = 'none';
             duration.style.display = 'block';
             chengebleArea.innerHTML = `
@@ -54,6 +61,7 @@ servicesInput.onchange = () => {
             break;
 
         case 'Переговорка':
+            rateSelect.value='';
             rate.style.display = 'none';
             duration.style.display = 'block';
             chengebleArea.innerHTML = `
@@ -73,11 +81,23 @@ servicesInput.onchange = () => {
             checkCost()
             break;
     }
+    log()
 }
-rateSelect.onchange = () => {
-    switch (rateSelect.value) {
-        case 'Гость':
-            chengebleArea.innerHTML = `
+
+
+
+
+rateSelect.onchange = setRateSelect;
+setRateSelect();
+
+function setRateSelect() {
+    if (servicesInput.value === 'Рабочее место') {
+
+        switch (rateSelect.value) {
+            case 'Гость':
+
+                duration.style.display = 'block';
+                chengebleArea.innerHTML = `
                 <label>Продлжительность</label>
                 <select name="duration" onchange='chengeDuration(event)'>
                     <option value="" selected hidden>Выбирете продолжительность</option>
@@ -86,13 +106,15 @@ rateSelect.onchange = () => {
                     <option value="1 месяц = 3500р">1 месяц = 3500р</option>
                     <option value="3 месяца = 9000">3 месяца = 9000</option>
                 </select>`;
-            serviceResult.innerText = 'Рабочее место\nТариф: Гость';
-            durationResult.innerText = '';
-            costResult.innerText = '';
-            checkCost()
-            break;
-        case 'Резидент':
-            chengebleArea.innerHTML = `
+                serviceResult.innerText = 'Рабочее место\nТариф: Гость';
+                durationResult.innerText = '';
+                costResult.innerText = '';
+                checkCost()
+                break;
+            case 'Резидент':
+
+                duration.style.display = 'block';
+                chengebleArea.innerHTML = `
                 <label>Продлжительность</label>
                 <select name="duration" onchange='chengeDuration(event)'>
                     <option value="" selected hidden>Выбирете продолжительность</option>
@@ -100,25 +122,32 @@ rateSelect.onchange = () => {
                     <option value="3 месяца = 12000р">3 месяца = 12000р</option>
                 </select>
             `;
-            serviceResult.innerText = 'Рабочее место\nТариф: Резидент';
-            durationResult.innerText = '';
-            costResult.innerText = '';
-            checkCost();
-            break;
-        case 'Агентство':
-            chengebleArea.innerHTML = ``;
-            serviceResult.innerText = 'Рабочее место\nТариф: Агентство';
-            durationResult.innerText = "Обсуждается совместно со специалистом.";
-            costResult.innerText = 'С вами свяжется наш специалист для обсуждения подробностей.';
-            checkCost();
-            break;
+                serviceResult.innerText = 'Рабочее место\nТариф: Резидент';
+                durationResult.innerText = '';
+                costResult.innerText = '';
+                checkCost();
+                break;
+            case 'Агентство':
+
+                duration.style.display = 'block';
+                chengebleArea.innerHTML = ``;
+                serviceResult.innerText = 'Рабочее место\nТариф: Агентство';
+                durationResult.innerText = "Обсуждается совместно со специалистом.";
+                costResult.innerText = 'С вами свяжется наш специалист для обсуждения подробностей.';
+                checkCost();
+                break;
+        }
     }
+    log();
 }
+
+
+
 
 function chengeDuration(event) {
     if (event.target.type === 'number') {
         durationResult.innerText = event.target.value + " часа(-ов)";
-        costResult.innerText = event.target.value * 500 +'p';
+        costResult.innerText = event.target.value * 500 + 'p';
         checkCost();
         return
     }
@@ -131,12 +160,16 @@ function chengeDuration(event) {
 
 
 function checkCost() {
-    if (costResult.innerText !== '') 
+    if (costResult.innerText !== '')
         submitBtn.disabled = '';
     else submitBtn.disabled = 'true';
 }
 checkCost();
 
+function log() {
+    console.log(rateSelect.value);
+    console.log(servicesInput.value);
+}
 
 //функции работы с маской номера телефона
 function mask(e) {

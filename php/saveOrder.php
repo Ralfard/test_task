@@ -1,23 +1,19 @@
 <?php
-$db_host = "127.0.0.1"; //Адрес
-$db_user = "root"; // логин
-$db_password = ""; // пароль
-$db_database = "saveOrder"; //название базы данных
 
-$mysqli = new mysqli($db_host, $db_user, $db_password, $db_database); // инициируем вход в базу данных
-if ($mysqli->connect_error) {
-    printf("Соединение не удалось: %s\n", $mysqli->connect_error); //если не удалось подключиться 
-    exit();
-}
+
+include_once '../php/data_base.php';
 
 
 if ($_GET['submit']) {
-    $name = sanitizeString($_GET['name']);
-    $mail = sanitizeString($_GET['mail']);
-    $num = sanitizeString($_GET['num']);
-    $description = sanitizeString($_GET['description']);
-    $service = sanitizeString($_GET['service']);
-    $rate = sanitizeString($_GET['rate']);
+
+    if ($_GET['services'] === 'Конференц зал') $_GET['duration'] = $_GET['duration'] . "ч";
+
+    $name = sanitizeString($_GET['userName']);
+    $mail = sanitizeString($_GET['userMail']);
+    $num = sanitizeString($_GET['userPhone']);
+    $description = sanitizeString($_GET['userDescription']);
+    $service = sanitizeString($_GET['services']);
+    $rate = sanitizeString($_GET['rateSelect']);
     $duration = sanitizeString($_GET['duration']);
     $cost = sanitizeString($_GET['cost']);
 
@@ -34,36 +30,17 @@ if ($_GET['submit']) {
     '" . mysqli_real_escape_string($mysqli, $cost) . "'
 )";
 
-    $mysqli->query($sql);
+    $mysqli->query($sql) or die(mysqli_error($mysqli));
 
-    echo "!!!";
+    $id = mysqli_insert_id($mysqli) or die(mysqli_error($mysqli));;
 }
 
 
+header("Location: /pages/finish.php?id=$id");
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//Функция для защиты БД от 
 function sanitizeString($str)
 {
     $str = stripslashes($str);
